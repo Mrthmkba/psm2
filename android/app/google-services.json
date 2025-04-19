@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "275091721804",
+    "project_id": "myhealthmate-1b1a9",
+    "storage_bucket": "myhealthmate-1b1a9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275091721804:android:e5776d113a55b0745feee9",
+        "android_client_info": {
+          "package_name": "com.example.psm_coding_files"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275091721804-9qjg83mornl3baju1s2s644lgsh9mf56.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.psm_coding_files",
+            "certificate_hash": "19d7ccb60de9001d99d93a4efbd176a70c227d2b"
+          }
+        },
+        {
+          "client_id": "275091721804-9076a2qdj2blpbnt7houbtcisl9acl20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy848BSjepGhf5XFv4b4T_r3YapvMKqfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275091721804-9076a2qdj2blpbnt7houbtcisl9acl20.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "275091721804-h5vj2i3kr228vuaff1p7kr6arncjcek6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.psmCodingFiles"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
