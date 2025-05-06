@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:psm_coding_files/src/auth_repo/authentication_repository.dart';
-import 'package:psm_coding_files/src/common_widget/forms/form_header.dart';
 import 'package:psm_coding_files/src/features/authentication/controllers/signup_controller.dart';
 import 'package:psm_coding_files/src/features/authentication/screens/login/login.dart';
-import 'package:psm_coding_files/src/utils/text_settings.dart';
 import 'package:psm_coding_files/src/features/authentication/screens/dashboard/main_page.dart';
+import 'package:psm_coding_files/src/custom_dialogs/custom_dialogs.dart';
+
+import '../../../../auth_repo/authentication_repository.dart';
+import '../../../../common_widget/forms/form_header.dart';
+
+import '../../../../common_widget/forms/form_header.dart'; // Import your dialog functions
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -38,8 +41,8 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     const FormHeader(
                       image: "assets/logo/MainLogo1.png",
-                      title: SignUpTitle,
-                      subTitle: SignUpSubTitle,
+                      title: "Sign Up",
+                      subTitle: "Create a new account",
                     ),
                     const SizedBox(height: 30),
                     Form(
@@ -126,9 +129,7 @@ class SignUpScreen extends StatelessWidget {
                                 labelText: "Confirm Password",
                                 hintText: "Re-enter your password",
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                                filled: true,
-                                fillColor: Colors.white),
+                                    borderRadius: BorderRadius.all(Radius.circular(30.0)))),
                             validator: (value) {
                               if (value != controller.password.text) {
                                 return 'Passwords do not match';
@@ -142,7 +143,7 @@ class SignUpScreen extends StatelessWidget {
                             width: 120,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.lightBlue, // Darker shade for the button
+                                backgroundColor: Colors.lightBlue,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
@@ -150,17 +151,11 @@ class SignUpScreen extends StatelessWidget {
                               ),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  try {
-                                    await SignupController.instance.registerUser(
-                                      controller.email.text.trim(),
-                                      controller.password.text.trim(),
-                                    );
-                                    // Navigate to MainPage after successful sign up
-                                    Get.offAll(() => const MainPage());
-                                    Get.snackbar("Success", "Sign-up successful!");
-                                  } catch (e) {
-                                    Get.snackbar("Error", e.toString());
-                                  }
+                                  await controller.registerUser(
+                                    controller.email.text.trim(),
+                                    controller.password.text.trim(),
+                                    context,
+                                  );
                                 }
                               },
                               child: const Text(
@@ -173,7 +168,7 @@ class SignUpScreen extends StatelessWidget {
                           const Text("OR"),
                           const SizedBox(height: 10),
 
-                          // 🔥 Google Sign Up Button
+                          // Google Sign Up Button
                           SizedBox(
                             height: 50,
                             width: double.infinity,
@@ -185,11 +180,12 @@ class SignUpScreen extends StatelessWidget {
                               onPressed: () async {
                                 try {
                                   await AuthenticationRepository.instance.signInWithGoogle();
-                                  // Navigate to MainPage after Google Sign-Up
-                                  Get.offAll(() => const MainPage());
-                                  Get.snackbar("Success", "Signed up with Google!");
+                                  showSuccessDialog(context, "Login Successful", "You are now logged in with Google!");
+                                  Future.delayed(const Duration(seconds: 2), () {
+                                    Get.offAll(() => const MainPage());
+                                  });
                                 } catch (e) {
-                                  Get.snackbar("Error", e.toString());
+                                  showErrorDialog(context, "Google Sign-In Failed", e.toString());
                                 }
                               },
                               label: const Text("Sign up with Google"),
@@ -201,7 +197,6 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           const SizedBox(height: 20),
                           TextButton(
                             onPressed: () {

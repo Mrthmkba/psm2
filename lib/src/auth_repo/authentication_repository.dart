@@ -7,7 +7,6 @@ class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   String? _verificationId;
 
   // ------------------ EMAIL AUTH METHODS ------------------
@@ -53,21 +52,25 @@ class AuthenticationRepository extends GetxController {
   // ------------------ PHONE AUTH METHODS ------------------
 
   Future<void> phoneAuthentication(String phoneNo) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNo,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await _auth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        throw Exception(e.message);
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        _verificationId = verificationId;
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        _verificationId = verificationId;
-      },
-    );
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          throw Exception(e.message);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          _verificationId = verificationId;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          _verificationId = verificationId;
+        },
+      );
+    } catch (e) {
+      throw Exception("Phone authentication failed.");
+    }
   }
 
   Future<bool> verifyOTP(String otp) async {
@@ -91,8 +94,7 @@ class AuthenticationRepository extends GetxController {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser == null) {
-        // User canceled the sign-in
-        return;
+        throw Exception("Google sign-in was cancelled.");
       }
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -103,22 +105,10 @@ class AuthenticationRepository extends GetxController {
       );
 
       await _auth.signInWithCredential(credential);
-
-      Get.snackbar(
-        "Success",
-        "Logged in with Google!",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message);
     } catch (e) {
-      Get.snackbar(
-        "Google Sign-In Failed",
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      throw Exception("Google Sign-In failed.");
     }
   }
 }

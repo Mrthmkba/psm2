@@ -37,6 +37,7 @@ dependencies:
   liquid_swipe: ^3.0.0
   smooth_page_indicator:
   line_awesome_flutter:
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

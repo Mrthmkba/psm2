@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:psm_coding_files/src/common_widget/forms/form_header.dart';
 import 'package:psm_coding_files/src/utils/text_settings.dart';
+import '../../../../custom_dialogs/custom_dialogs.dart';
 import '../../controllers/signup_controller.dart';
 import '../dashboard/main_page.dart';
 import '../dashboard/main_page.dart';
@@ -79,12 +80,14 @@ class LoginFooter extends StatelessWidget {
               try {
                 await AuthenticationRepository.instance.signInWithGoogle();
                 // Show success message
-                Get.snackbar("Success", "Logged in with Google!");
+                showSuccessDialog(context, "Login Successful", "Welcome back!");
+
                 // Navigate to main page
                 Get.offAll(() => const MainPage());  // Navigating to MainPage after successful login
               } catch (e) {
                 // Handle errors if any
-                Get.snackbar("Error", e.toString());
+                showErrorDialog(context, "Login Failed", e.toString());
+
               }
             },
             label: const Text("Sign In With Google"),
@@ -101,11 +104,18 @@ class LoginFooter extends StatelessWidget {
           child: const Text.rich(
             TextSpan(
               text: "Don't Have an Account? > ",
-              style: TextStyle(color: Colors.blueAccent),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black),
               children: [
                 TextSpan(
                   text: "Sign Up",
-                  style: TextStyle(color: Colors.blueAccent),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 )
               ],
             ),
