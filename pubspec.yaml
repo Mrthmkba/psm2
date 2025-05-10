@@ -15,7 +15,7 @@ dependencies:
   google_sign_in: ^6.1.6
   image_picker: ^0.8.6
   sqflite:
-  google_ml_kit: ^0.7.3
+  google_ml_kit: ^0.20.0
   path_provider_android: ^2.0.12
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
@@ -37,7 +37,7 @@ dependencies:
   liquid_swipe: ^3.0.0
   smooth_page_indicator:
   line_awesome_flutter:
-  intl: ^0.20.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
